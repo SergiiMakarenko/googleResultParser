@@ -34,8 +34,8 @@ public class GoogleSearch {
         driver.get("https://www.google.com.ua/?gws_rd=ssl");
         WebElement searchField = driver.findElement(By.xpath(".//*[@id='lst-ib']"));
         searchField.sendKeys(this.search);
-
         searchField.submit();
+
                 (new WebDriverWait(driver, 5)).until(new ExpectedCondition<Boolean>() {
                     @Override
                     public Boolean apply(WebDriver webDriver) {
@@ -44,11 +44,11 @@ public class GoogleSearch {
                 });
         final String titleFirst = driver.getTitle();
 
-        List<WebElement> resultLinks = driver.findElements(By.xpath(".//div/h3/a"));
+        int amountElements = driver.findElements(By.xpath(".//div/h3/a")).size();
 
-        for(int i=0;i<resultLinks.size();i++){
-            List<WebElement> resultLinks2 = driver.findElements(By.xpath(".//div/h3/a"));
-            resultLinks2.get(i).click();
+        for(int i=0;i<amountElements;i++){
+            List<WebElement> resultLinks = driver.findElements(By.xpath(".//div/h3/a"));
+            resultLinks.get(i).click();
             (new WebDriverWait(driver, 5)).until(new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver webDriver) {
