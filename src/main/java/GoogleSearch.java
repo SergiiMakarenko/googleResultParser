@@ -35,10 +35,9 @@ public class GoogleSearch {
         WebElement searchField = driver.findElement(By.xpath(".//*[@id='lst-ib']"));
         searchField.sendKeys(this.search);
         searchField.submit();
-
-                (new WebDriverWait(driver, 5)).until(new ExpectedCondition<Boolean>() {
-                    @Override
-                    public Boolean apply(WebDriver webDriver) {
+                (new WebDriverWait(driver, 5)).until(new ExpectedCondition() {
+                    public Boolean apply(Object o) {
+                        WebDriver webDriver=(WebDriver) o;
                         return webDriver.getTitle().startsWith(search);
                     }
                 });
@@ -47,19 +46,19 @@ public class GoogleSearch {
         int amountElements = driver.findElements(By.xpath(".//div/h3/a")).size();
 
         for(int i=0;i<amountElements;i++){
-            List<WebElement> resultLinks = driver.findElements(By.xpath(".//div/h3/a"));
-            resultLinks.get(i).click();
-            (new WebDriverWait(driver, 5)).until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver webDriver) {
+            List resultLinks = driver.findElements(By.xpath(".//div/h3/a"));
+            ((WebElement) resultLinks.get(i)).click();
+            (new WebDriverWait(driver, 5)).until(new ExpectedCondition() {
+                public Boolean apply(Object o) {
+                    WebDriver webDriver = (WebDriver) o;
                     return !webDriver.getTitle().equals(titleFirst);
                 }
             });
             System.out.println( driver.getTitle());
             driver.get("https://www.google.com.ua/?gws_rd=ssl#q=" + search);
-            (new WebDriverWait(driver, 5)).until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver webDriver) {
+            (new WebDriverWait(driver, 5)).until(new ExpectedCondition() {
+                public Boolean apply(Object o) {
+                    WebDriver webDriver = (WebDriver) o;
                     return webDriver.getTitle().equals(titleFirst);
                 }
             });
